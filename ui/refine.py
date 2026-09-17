@@ -1,0 +1,12 @@
+from pathlib import Path
+p=Path(__file__).with_name('index.html')
+s=p.read_text(encoding='utf8')
+s=s.replace("{type:'小班课',left:6,frozen:1,total:10},{type:'私教课',left:3,frozen:0,total:10}","{type:'小班课',left:6,frozen:1,total:10,store:0},{type:'私教课',left:3,frozen:0,total:10,store:0}")
+s=s.replace("w.type===c.type&&w.left>0","w.type===c.type&&w.store===store&&w.left>0")
+s=s.replace("w.type===activeClass.type&&w.left>0","w.type===activeClass.type&&w.store===activeClass.store&&w.left>0")
+s=s.replace("{type:cardType,left:i,frozen:0,total:i}","{type:cardType,left:i,frozen:0,total:i,store}")
+s=s.replace('明天 14:00 · ${stores[store]}','明天 14:00 · 静安旗舰店')
+s=s.replace('<span>本店专属</span>','<span>${stores[w.store]}</span>')
+s=s.replace('暂无可用的${c.type}次卡。其他课型会员卡不能用于本课程。','暂无适用于${stores[store]}的${c.type}次卡。其他门店或课型的卡不能用于本课程。')
+s=s.replace('.sheet textarea{width:100%', '.sheet textarea{width:100%')
+p.write_text(s,encoding='utf8')
